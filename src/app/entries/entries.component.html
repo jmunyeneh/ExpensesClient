@@ -1,0 +1,37 @@
+
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
+</mat-form-field>
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="Description">
+        <mat-header-cell *matHeaderCellDef> Decription </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="IsExpense">
+        <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{(element.isExpense)? 'Expense': 'Income'}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Value">
+        <mat-header-cell *matHeaderCellDef> Value </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.value}} </mat-cell>
+      </ng-container>  
+      
+      <ng-container matColumnDef="Actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element"> 
+          <button (click)="updateEntry(element)" mat-raised-button color="primary">
+           <mat-icon color="white">edit</mat-icon> <b>Edit</b>
+          </button>
+
+          <button [routerLink]="['/delete-entry', element.id]" mat-raised-button color="warn">
+            <mat-icon color="white">delete_sweep</mat-icon><b>Delete</b>   
+          </button>
+        </td>                
+      </ng-container>  
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
